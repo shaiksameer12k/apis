@@ -4,7 +4,7 @@ const mongoose = require("mongoose");
 const teacherModel = new mongoose.Schema({
   teacherName: String,
   mobileNumber: String,
-  teacherId: String,
+  teacherId: Number,
   gender: String,
   classTeacher: String,
 });
@@ -26,11 +26,36 @@ const getTeachersApi = async (req, res) => {
 };
 
 const postTeachersApi = async (req, res) => {
-  let body = req.params;
-  let data = await new teacherData(body);
-
+  let getData = await teacherData.find();
+  let refTeacherId =
+    getData.length > 0 && getData[getData.length - 1].teacherId;
+  let body = req.body;
+  // console.log(refTeacherId,refTeacherId ? Number(refTeacherId) + 1 : Number(1000))
+  let data = await new teacherData({
+    ...body,
+    teacherId: refTeacherId ? Number(refTeacherId) + 1 : Number(1000),
+  });
   await data.save();
-  return res.send("Data Saved Successfully");
+  return res.json({ message: "Successfully Data Inserted" });
 };
 
-module.exports = { getTeachersApi,  postTeachersApi };
+const deleteTeachersDataApi = async (req, res) => {
+  let getTeacherId = req.query.teacherId;
+
+  // Delete App
+  //  await teacherData.deleteMany({});
+  await teacherData.deleteOne({ teacherId: getTeacherId });
+  return res.json({ message: "Successfully Data Deleted" });
+};
+
+const updateTeachersDataApi = async (req, res) => {
+  let body = req.body;
+  let { teacherName, mobileNumber, gender, classTeacher, teacherId } = body;
+  let data = await teacherData.findOneAndUpdate(
+    { teacherId: teacherId },
+    { teacherName, mobileNumber, gender, classTeacher }
+  );
+  return res.json({ message: "Successfully Data Updated" });
+};
+
+module.exports = { getTeachersApi, postTeachersApi, deleteTeachersDataApi , updateTeachersDataApi};

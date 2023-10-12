@@ -3,7 +3,12 @@ const express = require("express");
 const cors = require("cors");
 const signInApi = require("./controlers/signApi");
 const logInApi = require("./controlers/loginApi");
-const { getTeachersApi, postTeachersApi } = require("./controlers/teachersApi");
+const {
+  getTeachersApi,
+  postTeachersApi,
+  deleteTeachersDataApi,
+  updateTeachersDataApi,
+} = require("./controlers/teachersApi");
 
 require("dotenv").config();
 
@@ -34,6 +39,8 @@ app.post("/api/logIn", logInApi);
 app.get("/api/getTeachersData/:teacherId", getTeachersApi);
 app.get("/api/getTeachersData", getTeachersApi);
 app.post("/api/getTeachersData", postTeachersApi);
+app.delete("/api/getTeachersData", deleteTeachersDataApi);
+app.put("/api/getTeachersData", updateTeachersDataApi);
 
 //! listen
 app.listen(port, () => {
