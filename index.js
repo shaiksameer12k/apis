@@ -32,6 +32,7 @@ app.get("/", (req, res) => {
 app.post("/api/signIn", signInApi);
 app.post("/api/logIn", logInApi);
 app.get("/api/getTeachersData/:teacherId", getTeachersApi);
+app.get("/api/getTeachersData", getTeachersApi);
 app.post("/api/getTeachersData", postTeachersApi);
 
 //! listen
