@@ -17,18 +17,21 @@ const port = 5000;
 //! middleware
 app.use(express.json());
 app.use(cors());
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
+  );
   next();
 });
 //! routes
-app.get("/", (req,res) => {
-  return res.send("Hello Node Apis")
+app.get("/", (req, res) => {
+  return res.send("Hello Node Apis");
 });
 app.post("/api/signIn", signInApi);
 app.post("/api/logIn", logInApi);
-app.get("/api/getTeachersData", getTeachersApi);
+app.get("/api/getTeachersData/:teacherId", getTeachersApi);
 app.post("/api/getTeachersData", postTeachersApi);
 
 //! listen
@@ -36,5 +39,4 @@ app.listen(port, () => {
   return console.log(`Port is running on ${port}`);
 });
 
-
-module.exports = app
+module.exports = app;

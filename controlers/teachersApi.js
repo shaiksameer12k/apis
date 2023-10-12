@@ -15,16 +15,22 @@ const teacherData =
 // ! Controllers
 
 const getTeachersApi = async (req, res) => {
-  let data = await teacherData.find();
-  return res.send(data);
+  let teacherId = await req.params.teacherId;
+  if (teacherId) {
+    let data = await teacherData.findOne({ teacherId: teacherId });
+    return res.json(data);
+  } else {
+    let data = await teacherData.find();
+    return res.json(data);
+  }
 };
 
 const postTeachersApi = async (req, res) => {
-  let body = req.body;
+  let body = req.params;
   let data = await new teacherData(body);
 
   await data.save();
   return res.send("Data Saved Successfully");
 };
 
-module.exports = { getTeachersApi, postTeachersApi };
+module.exports = { getTeachersApi,  postTeachersApi };
