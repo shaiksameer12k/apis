@@ -37,17 +37,31 @@ const getTeachersApi = async (req, res) => {
 };
 
 const postTeachersApi = async (req, res) => {
-  let getData = await teacherData.find();
-  let refTeacherId =
-    getData.length > 0 && getData[getData.length - 1].teacherId;
   let body = req.body;
-  // console.log(refTeacherId,refTeacherId ? Number(refTeacherId) + 1 : Number(1000))
-  let data = await new teacherData({
-    ...body,
-    teacherId: refTeacherId ? Number(refTeacherId) + 1 : Number(1000),
-  });
-  await data.save();
-  return res.json({ message: "Successfully Data Inserted" });
+  let { teacherName, mobileNumber, gender, classTeacher } = body;
+  if (
+    teacherName &&
+    teacherName.length > 0 &&
+    mobileNumber &&
+    mobileNumber.length > 0 &&
+    gender &&
+    gender.length > 0 &&
+    classTeacher &&
+    classTeacher.length > 0
+  ) {
+    let getData = await teacherData.find();
+    let refTeacherId =
+      getData.length > 0 && getData[getData.length - 1].teacherId;
+    // console.log(refTeacherId,refTeacherId ? Number(refTeacherId) + 1 : Number(1000))
+    let data = await new teacherData({
+      ...body,
+      teacherId: refTeacherId ? Number(refTeacherId) + 1 : Number(1000),
+    });
+    await data.save();
+    return res.json({ message: "Successfully Data Inserted" });
+  } else {
+    return res.json({ message: "Please Fill The Given  Params" });
+  }
 };
 
 const deleteTeachersDataApi = async (req, res) => {
@@ -63,11 +77,23 @@ const deleteTeachersDataApi = async (req, res) => {
 const updateTeachersDataApi = async (req, res) => {
   let body = req.body;
   let { teacherName, mobileNumber, gender, classTeacher, teacherId } = body;
-  let data = await teacherData.findOneAndUpdate(
-    { teacherId: teacherId },
-    { teacherName, mobileNumber, gender, classTeacher }
-  );
-  return res.json({ message: "Successfully Data Updated" });
+  let check = await teacherData.find({ teacherId }).count();
+  if (
+    teacherId &&
+    teacherId > 0 &&
+    check > 0 &&
+    (teacherName || mobileNumber || gender || classTeacher)
+  ) {
+    let data = await teacherData.findOneAndUpdate(
+      { teacherId: teacherId },
+      { teacherName, mobileNumber, gender, classTeacher }
+    );
+    return res.json({ message: "Successfully Data Updated" });
+  } else {
+    check == 0
+      ? res.json({ message: "teachersId is Not Exist  To Update" })
+      : res.json({ message: "Please Provide teachersId To Update" });
+  }
 };
 
 const postTeachersAttendance = async (req, res) => {

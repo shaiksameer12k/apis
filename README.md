@@ -9,7 +9,7 @@
  {
   "username": "shaiksameer12k@gmail.com",
   "password": "sameer@67"
-} 
+ }
 -->
 
 <!--? Get Teachers Data Api (method:GET) -->
