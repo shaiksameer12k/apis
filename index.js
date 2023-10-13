@@ -9,6 +9,8 @@ const {
   deleteTeachersDataApi,
   updateTeachersDataApi,
 } = require("./controlers/teachersApi");
+const verifyToken = require("./component/verifyToken");
+const getToken = require("./controlers/getToken");
 
 require("dotenv").config();
 
@@ -34,6 +36,7 @@ app.use(function (req, res, next) {
 app.get("/", (req, res) => {
   return res.send("Hello Node Apis");
 });
+app.post("/api/getToken", getToken);
 app.post("/api/signIn", signInApi);
 app.post("/api/logIn", logInApi);
 app.get("/api/getTeachersData/:teacherId", getTeachersApi);
