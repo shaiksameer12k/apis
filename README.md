@@ -1,5 +1,17 @@
 <!--! School Management Apis -->
 
+<!-- ? Get Token (method:POST)-->
+
+<!-- https://apis-re1c.onrender.com/api/getToken -->
+
+<!-- parameters to send (body) -->
+<!--
+ {
+  "username": "shaiksameer12k@gmail.com",
+  "password": "sameer@67"
+} 
+-->
+
 <!--? Get Teachers Data Api (method:GET) -->
 
 <!-- https://apis-re1c.onrender.com/api/getTeachersData -->
@@ -47,4 +59,4 @@
 
 <!--! Note if you see any thing in double arrows << some thing should come dynamic >> -->
 
- <!--    https://apis-re1c.onrender.com/api/getTeachersData?teacherId= <<Send TeacherId of Teacher>>       --> 
+ <!--    https://apis-re1c.onrender.com/api/getTeachersData?teacherId= <<Send TeacherId of Teacher>>       -->

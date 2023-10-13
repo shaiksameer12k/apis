@@ -12,6 +12,17 @@ const teacherModel = new mongoose.Schema({
 const teacherData =
   mongoose.models.teachers || mongoose.model("teachers", teacherModel);
 
+//! Teachers Attendence Model
+const teacherAttendanceModel = new mongoose.Schema({
+  teacherId: Number,
+  attendenceDate: String,
+  status: String,
+});
+
+const teacherAttendanceData =
+  mongoose.models.teachersAttendences ||
+  mongoose.model("teachersAttendences", teacherAttendanceModel);
+
 // ! Controllers
 
 const getTeachersApi = async (req, res) => {
@@ -45,6 +56,7 @@ const deleteTeachersDataApi = async (req, res) => {
   // Delete App
   //  await teacherData.deleteMany({});
   await teacherData.deleteOne({ teacherId: getTeacherId });
+  await teacherAttendanceData.deleteOne({ teacherId: getTeacherId });
   return res.json({ message: "Successfully Data Deleted" });
 };
 
@@ -58,4 +70,43 @@ const updateTeachersDataApi = async (req, res) => {
   return res.json({ message: "Successfully Data Updated" });
 };
 
-module.exports = { getTeachersApi, postTeachersApi, deleteTeachersDataApi , updateTeachersDataApi};
+const postTeachersAttendance = async (req, res) => {
+  let body = req.body;
+  let { teacherId } = body;
+  let check = await teacherData.find({ teacherId }).count();
+
+  if (check > 0) {
+    let data = new teacherAttendanceData(body);
+    await data.save();
+    res.json({ message: "Successfully Marked Attendance" });
+  } else {
+    res.json({ message: "TeacherId is Not Existed" });
+  }
+};
+
+const getMonthTeachersAttendance = async (req, res) => {
+  let { teacherId, month } = await req.params;
+
+  let data = await teacherAttendanceData.find();
+  let filterData = data.filter(
+    (item) =>
+      item.teacherId == teacherId &&
+      new Date(item.attendenceDate).getMonth() + 1 == month
+  );
+  if (filterData.length > 0) {
+    return res.json(filterData);
+  } else {
+    return res.json({ message: "There is No Data" });
+  }
+};
+
+module.exports = {
+  getTeachersApi,
+  postTeachersApi,
+  deleteTeachersDataApi,
+  updateTeachersDataApi,
+  postTeachersAttendance,
+  getMonthTeachersAttendance,
+  teacherData,
+  teacherAttendanceData,
+};

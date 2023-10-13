@@ -8,6 +8,8 @@ const {
   postTeachersApi,
   deleteTeachersDataApi,
   updateTeachersDataApi,
+  postTeachersAttendance,
+  getMonthTeachersAttendance,
 } = require("./controlers/teachersApi");
 const verifyToken = require("./component/verifyToken");
 const getToken = require("./controlers/getToken");
@@ -44,6 +46,8 @@ app.get("/api/getTeachersData", getTeachersApi);
 app.post("/api/getTeachersData", postTeachersApi);
 app.delete("/api/getTeachersData", deleteTeachersDataApi);
 app.put("/api/getTeachersData", updateTeachersDataApi);
+app.post("/api/postTeachersAttendance", postTeachersAttendance);
+app.get("/api/getMonthTeachersAttendance/:teacherId/:month", getMonthTeachersAttendance);
 
 //! listen
 app.listen(port, () => {
