@@ -57,11 +57,11 @@ app.post("/api/forgetPswApi",verifyToken, forgetPswApi);
 
 
 app.get("/api/getTeachersData/:teacherId",verifyToken, getTeachersApi);
-app.get("/api/getTeachersData",verifyToken getTeachersApi);
-app.post("/api/getTeachersData",verifyToken postTeachersApi);
-app.delete("/api/getTeachersData",verifyToken deleteTeachersDataApi);
-app.put("/api/getTeachersData",verifyToken updateTeachersDataApi);
-app.post("/api/postTeachersAttendance",verifyToken postTeachersAttendance);
+app.get("/api/getTeachersData",verifyToken, getTeachersApi);
+app.post("/api/getTeachersData",verifyToken, postTeachersApi);
+app.delete("/api/getTeachersData",verifyToken, deleteTeachersDataApi);
+app.put("/api/getTeachersData",verifyToken, updateTeachersDataApi);
+app.post("/api/postTeachersAttendance",verifyToken ,postTeachersAttendance);
 app.get(
   "/api/getMonthTeachersAttendance/:teacherId/:month",verifyToken,
   getMonthTeachersAttendance
