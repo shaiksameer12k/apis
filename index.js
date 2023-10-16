@@ -1,8 +1,14 @@
 const dbConnectionFun = require("./db/dbConnection");
 const express = require("express");
 const cors = require("cors");
-const signInApi = require("./controlers/signApi");
-const logInApi = require("./controlers/loginApi");
+const {
+  getAdminData,
+  signInApi,
+  loginApi,
+  changePswApi,
+  forgetPswApi,
+  deleteAdminData,
+} = require("./controlers/adminApi");
 const {
   getTeachersApi,
   postTeachersApi,
@@ -11,6 +17,7 @@ const {
   postTeachersAttendance,
   getMonthTeachersAttendance,
 } = require("./controlers/teachersApi");
+
 const verifyToken = require("./component/verifyToken");
 const getToken = require("./controlers/getToken");
 
@@ -38,9 +45,16 @@ app.use(function (req, res, next) {
 app.get("/", (req, res) => {
   return res.send("Hello Node Apis");
 });
+
+app.get("/api/adminData", getAdminData);
+app.delete("/api/adminData", deleteAdminData);
+app.post("/api/signInApi", signInApi);
+app.post("/api/loginApi", loginApi);
+app.post("/api/changePswApi", changePswApi);
+app.post("/api/forgetPswApi", forgetPswApi);
+
 app.post("/api/getToken", getToken);
-app.post("/api/signIn", signInApi);
-app.post("/api/logIn", logInApi);
+
 app.get("/api/getTeachersData/:teacherId", verifyToken, getTeachersApi);
 app.get("/api/getTeachersData", verifyToken, getTeachersApi);
 app.post("/api/getTeachersData", verifyToken, postTeachersApi);
