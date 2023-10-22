@@ -1,5 +1,6 @@
 const dbConnectionFun = require("./db/dbConnection");
 const express = require("express");
+const dotenv = require("dotenv");
 const cors = require("cors");
 const {
   getAdminData,
@@ -21,7 +22,7 @@ const {
 const verifyToken = require("./component/verifyToken");
 const getToken = require("./controlers/getToken");
 
-require("dotenv").config();
+dotenv.config();
 
 //! app
 app = express();
@@ -29,7 +30,7 @@ app = express();
 //! mongoos connection
 dbConnectionFun();
 //! port
-const port = 5000;
+const port =  5000;
 //! middleware
 app.use(express.json());
 app.use(cors());

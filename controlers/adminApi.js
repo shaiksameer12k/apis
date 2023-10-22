@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-
+const bcrypt = require("bcrypt");
 const sendMail = require("../component/sendMail");
 const usermodel = new mongoose.Schema({
   firstName: String,
@@ -50,10 +50,13 @@ const signInApi = async (req, res) => {
       });
     } else {
       let length = await admin.find().count();
+      const saltRounds = 10;
+      let hashPsw = await bcrypt.hash(randomPassword, saltRounds);
+      console.log("Hashed outside:", hashPsw);
       let data = new admin({
         ...payload,
         EmpId: length + 1,
-        password: randomPassword,
+        password: hashPsw,
       });
 
       await data.save();
@@ -89,14 +92,11 @@ const loginApi = async (req, res) => {
   let result = await admin.findOne({ userName: userName });
 
   if (result) {
-    let finalResult = await admin.findOne({
-      userName: userName,
-      password: password,
-    });
+    let checkPsw = await bcrypt.compare(password, result.password);
 
-    if (finalResult) {
+    if (checkPsw) {
       return res.json({
-        userName: finalResult.userName,
+        userName: result.userName,
         message: "SuccessFully Login",
       });
     } else {
@@ -113,6 +113,7 @@ const loginApi = async (req, res) => {
 
 const changePswApi = async (req, res) => {
   let { oldPassword, newPassword, EmpId } = req.body;
+
   if (oldPassword.length > 0 && newPassword.length > 0) {
     var psw = await admin.findOne({ EmpId });
 
@@ -122,7 +123,7 @@ const changePswApi = async (req, res) => {
         { password: newPassword }
       );
       await sendMail(psw.email, psw.userName, newPassword, "changePassword");
-      return res.json({ filterData, message: "successfully password changed" });
+      return res.json({ message: "successfully password changed" });
     } else {
       return res.json({ message: "Please Enter Correct Old Password" });
     }
