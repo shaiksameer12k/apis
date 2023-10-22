@@ -47,23 +47,24 @@ app.get("/", (req, res) => {
   return res.send("Hello Node Apis");
 });
 
-app.get("/api/adminData", getAdminData);
-app.delete("/api/adminData", deleteAdminData);
-app.post("/api/signInApi", signInApi);
-app.post("/api/loginApi", loginApi);
-app.post("/api/changePswApi", changePswApi);
-app.post("/api/forgetPswApi", forgetPswApi);
-
 app.post("/api/getToken", getToken);
 
-app.get("/api/getTeachersData/:teacherId", getTeachersApi);
-app.get("/api/getTeachersData", getTeachersApi);
-app.post("/api/getTeachersData", postTeachersApi);
-app.delete("/api/getTeachersData", deleteTeachersDataApi);
-app.put("/api/getTeachersData", updateTeachersDataApi);
-app.post("/api/postTeachersAttendance", postTeachersAttendance);
+app.get("/api/adminData",verifyToken, getAdminData);
+app.delete("/api/adminData",verifyToken, deleteAdminData);
+app.post("/api/signInApi",verifyToken, signInApi);
+app.post("/api/loginApi",verifyToken, loginApi);
+app.post("/api/changePswApi",verifyToken, changePswApi);
+app.post("/api/forgetPswApi",verifyToken, forgetPswApi);
+
+
+app.get("/api/getTeachersData/:teacherId",verifyToken, getTeachersApi);
+app.get("/api/getTeachersData",verifyToken, getTeachersApi);
+app.post("/api/getTeachersData",verifyToken, postTeachersApi);
+app.delete("/api/getTeachersData",verifyToken, deleteTeachersDataApi);
+app.put("/api/getTeachersData",verifyToken, updateTeachersDataApi);
+app.post("/api/postTeachersAttendance",verifyToken ,postTeachersAttendance);
 app.get(
-  "/api/getMonthTeachersAttendance/:teacherId/:month",
+  "/api/getMonthTeachersAttendance/:teacherId/:month",verifyToken,
   getMonthTeachersAttendance
 );
 
