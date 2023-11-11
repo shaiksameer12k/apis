@@ -36,13 +36,13 @@ const signInApi = async (req, res) => {
     dateOfBirth,
     mobileNumber,
     email,
-    userName,
-    password,
+    userName
+    
   } = payload;
   let check = await admin.find({ email: email }).count();
 
-  // something issue in mail
-  // const randomPassword = generateRandomPassword(6);
+  
+  const randomPassword = generateRandomPassword(6);
 
   if (
     firstName.length > 0 &&
@@ -59,7 +59,7 @@ const signInApi = async (req, res) => {
     } else {
       let length = await admin.find().count();
       const saltRounds = 10;
-      let hashPsw = await bcrypt.hash(password, saltRounds);
+      let hashPsw = await bcrypt.hash(randomPassword, saltRounds);
 
       let data = new admin({
         ...payload,
