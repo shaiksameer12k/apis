@@ -6,13 +6,13 @@ const sendMail = async (email, userName, randomPassword, type) => {
     port: 465,
     secure: true,
     auth: {
-      user: "shaiksameer6061@gmail.com",
-      pass: "xpjlfrqawyorhnju",
+      user: "shaiksameer13k@gmail.com",
+      pass: "zzqeoiiwodwvncdz",
     },
   });
 
   const info = await transporter.sendMail({
-    from: "<shaiksameer6061@gmail.com>",
+    from: "<shaiksameer13k@gmail.com>",
     to: email,
     subject: "Password Received Successfully",
     text: `Hello ${userName}`,
