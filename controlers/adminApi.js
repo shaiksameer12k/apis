@@ -68,12 +68,12 @@ const signInApi = async (req, res) => {
       });
 
       await data.save();
-      // await sendMail(email, userName, randomPassword, "0");
+      await sendMail(email, userName, randomPassword, "0");
 
       return res.json({
         messageStatus: 1,
-        // message: "Successfully UserName and password send to Given Mail Id",
-        message: "Successfully Sign In Completed",
+        message: "Successfully UserName and password send to Given Mail Id",
+        // message: "Successfully Sign In Completed",
       });
     }
   } else {
