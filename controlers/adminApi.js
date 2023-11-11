@@ -30,11 +30,19 @@ function generateRandomPassword(length) {
 // sign in api
 const signInApi = async (req, res) => {
   let payload = await req.body;
-  let { firstName, lastName, dateOfBirth, mobileNumber, email, userName } =
-    payload;
+  let {
+    firstName,
+    lastName,
+    dateOfBirth,
+    mobileNumber,
+    email,
+    userName,
+    password,
+  } = payload;
   let check = await admin.find({ email: email }).count();
 
-  const randomPassword = generateRandomPassword(6);
+  // something issue in mail
+  // const randomPassword = generateRandomPassword(6);
 
   if (
     firstName.length > 0 &&
@@ -51,8 +59,8 @@ const signInApi = async (req, res) => {
     } else {
       let length = await admin.find().count();
       const saltRounds = 10;
-      let hashPsw = await bcrypt.hash(randomPassword, saltRounds);
-      console.log("Hashed outside:", hashPsw);
+      let hashPsw = await bcrypt.hash(password, saltRounds);
+
       let data = new admin({
         ...payload,
         EmpId: length + 1,
@@ -60,11 +68,12 @@ const signInApi = async (req, res) => {
       });
 
       await data.save();
-      await sendMail(email, userName, randomPassword, "0");
+      // await sendMail(email, userName, randomPassword, "0");
 
       return res.json({
         messageStatus: 1,
-        message: "Successfully UserName and password send to Given Mail Id",
+        // message: "Successfully UserName and password send to Given Mail Id",
+        message: "Successfully Sign In Completed",
       });
     }
   } else {
